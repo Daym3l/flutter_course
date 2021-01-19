@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './product_manager.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color(333),
           title: Text('EasyList'),
         ),
+        body: ProductManager('Food Tester'),
       ),
     );
   }
