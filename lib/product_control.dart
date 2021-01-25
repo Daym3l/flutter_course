@@ -5,13 +5,12 @@ class ProductControl extends StatelessWidget {
   ProductControl(this.addProduct);
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      color: Theme.of(context).accentColor,
-      textColor: Colors.white,
+    return FloatingActionButton(
+      backgroundColor: Theme.of(context).accentColor,
       onPressed: () {
         addProduct('Sweet');
       },
-      child: Text('Add Product'),
+      child: Icon(Icons.add),
     );
   }
 }
