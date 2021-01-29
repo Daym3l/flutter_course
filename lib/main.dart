@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './pages/home.dart';
+import 'package:flutter_course/pages/auth.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,6 +10,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.deepOrange,
             accentColor: Colors.deepPurpleAccent),
-        home: HomePage());
+        home: AuthPage());
   }
 }
