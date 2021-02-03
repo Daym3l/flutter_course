@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/widgets/widget.dialog.dart';
 
 class ProductPage extends StatelessWidget {
   final String title;
@@ -26,7 +27,13 @@ class ProductPage extends StatelessWidget {
                     color: Theme.of(context).accentColor,
                     textColor: Colors.white,
                     child: Text("DELETE"),
-                    onPressed: () => Navigator.pop(context, true)),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return MyDialog();
+                          });
+                    }),
                 padding: EdgeInsets.all(8.0),
               )
             ],
