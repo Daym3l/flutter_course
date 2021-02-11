@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/tab.page.createProduct.dart';
 import 'package:flutter_course/pages/tab.page.productList.dart';
-import 'package:flutter_course/widgets/widget.drawer.dart';
+import 'package:flutter_course/widgets/iu_elements/widget.drawer.dart';
 
 class ProductsAdminPage extends StatelessWidget {
   final Function addProduct;

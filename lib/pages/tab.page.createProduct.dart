@@ -30,50 +30,51 @@ class _CreateProductPageState extends State<CreateProductPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.all(8.0),
-        child: ListView(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Product Title',
-              ),
-              onChanged: (String value) {
-                setState(() {
-                  _titleValue = value;
-                });
-              },
+      margin: EdgeInsets.all(8.0),
+      child: ListView(
+        children: [
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Product Title',
             ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Product Price',
-              ),
-              keyboardType: TextInputType.number,
-              onChanged: (String value) {
-                setState(() {
-                  _priceValue = double.parse(value);
-                });
-              },
+            onChanged: (String value) {
+              setState(() {
+                _titleValue = value;
+              });
+            },
+          ),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Product Price',
             ),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Product Description',
-              ),
-              maxLines: 3,
-              onChanged: (String value) {
-                setState(() {
-                  _descriptionValue = value;
-                });
-              },
+            keyboardType: TextInputType.number,
+            onChanged: (String value) {
+              setState(() {
+                _priceValue = double.parse(value);
+              });
+            },
+          ),
+          TextField(
+            decoration: InputDecoration(
+              labelText: 'Product Description',
             ),
-            SizedBox(
-              height: 8.0,
-            ),
-            RaisedButton(
-                child: Text('Save'),
-                color: Theme.of(context).accentColor,
-                textColor: Colors.white,
-                onPressed: () => _saveProduct())
-          ],
-        ));
+            maxLines: 3,
+            onChanged: (String value) {
+              setState(() {
+                _descriptionValue = value;
+              });
+            },
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          RaisedButton(
+              child: Text('Save'),
+              color: Theme.of(context).accentColor,
+              textColor: Colors.white,
+              onPressed: _saveProduct)
+        ],
+      ),
+    );
   }
 }
