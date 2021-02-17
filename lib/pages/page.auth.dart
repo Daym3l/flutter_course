@@ -8,8 +8,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  String _email;
-  String _password;
+  String email;
+  String password;
   bool _acceptTerms = false;
 
   BoxDecoration _buildBackgroudImage() {
@@ -43,7 +43,7 @@ class _AuthPageState extends State<AuthPage> {
                   keyboardType: TextInputType.emailAddress,
                   onChanged: (String value) {
                     setState(() {
-                      _email = value;
+                      email = value;
                     });
                   },
                 ),
@@ -57,7 +57,7 @@ class _AuthPageState extends State<AuthPage> {
                       fillColor: Colors.white),
                   onChanged: (String value) {
                     setState(() {
-                      _password = value;
+                      password = value;
                     });
                   },
                 ),
