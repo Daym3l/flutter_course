@@ -3,8 +3,9 @@ import 'package:flutter_course/pages/tab.page.editProduct.dart';
 
 class ProductListPage extends StatelessWidget {
   final List<Map<String, dynamic>> products;
+  final Function updateProduct;
 
-  ProductListPage(this.products);
+  ProductListPage(this.products, this.updateProduct);
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,10 @@ class ProductListPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
-                  return EditProductPage(product: products[index]);
+                  return EditProductPage(
+                      product: products[index],
+                      updateProduct: updateProduct,
+                      productIndex: index);
                 }));
               },
             ),

@@ -4,8 +4,10 @@ class EditProductPage extends StatefulWidget {
   final Function addProduct;
   final Function updateProduct;
   final Map<String, dynamic> product;
+  final int productIndex;
 
-  EditProductPage({this.addProduct, this.updateProduct, this.product});
+  EditProductPage(
+      {this.addProduct, this.updateProduct, this.product, this.productIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,8 +27,11 @@ class _EditProductPageState extends State<EditProductPage> {
   _saveProduct() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-
-      widget.addProduct(_formData);
+      if (widget.product == null) {
+        widget.addProduct(_formData);
+      } else {
+        widget.updateProduct(widget.productIndex, _formData);
+      }
       Navigator.pushReplacementNamed(context, '/home');
     }
   }
@@ -36,7 +41,7 @@ class _EditProductPageState extends State<EditProductPage> {
     final double deiceWidth = MediaQuery.of(context).size.width;
     final double targetWidth = deiceWidth > 550.0 ? 500.0 : deiceWidth * 0.95;
     final double targetPadding = deiceWidth - targetWidth;
-    return Container(
+    final Widget pageContent = Container(
       width: targetWidth,
       margin: EdgeInsets.all(8.0),
       child: Form(
@@ -48,6 +53,8 @@ class _EditProductPageState extends State<EditProductPage> {
               decoration: InputDecoration(
                 labelText: 'Product Title',
               ),
+              initialValue:
+                  widget.product == null ? "" : widget.product['title'],
               validator: (String value) {
                 if (value.isEmpty) {
                   return 'Title is required';
@@ -61,6 +68,9 @@ class _EditProductPageState extends State<EditProductPage> {
               decoration: InputDecoration(
                 labelText: 'Product Price',
               ),
+              initialValue: widget.product == null
+                  ? ""
+                  : widget.product['price'].toString(),
               keyboardType: TextInputType.number,
               validator: (String value) {
                 if (value.isEmpty) {
@@ -68,13 +78,15 @@ class _EditProductPageState extends State<EditProductPage> {
                 }
               },
               onSaved: (String value) {
-                _formData['price'] = value;
+                _formData['price'] = double.parse(value);
               },
             ),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'Product Description',
               ),
+              initialValue:
+                  widget.product == null ? "" : widget.product['description'],
               maxLines: 3,
               validator: (String value) {
                 if (value.isEmpty) {
@@ -96,5 +108,13 @@ class _EditProductPageState extends State<EditProductPage> {
         ),
       ),
     );
+    return widget.product == null
+        ? pageContent
+        : Scaffold(
+            appBar: AppBar(
+              title: Text('Edit Product'),
+            ),
+            body: pageContent,
+          );
   }
 }
