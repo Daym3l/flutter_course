@@ -1,60 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/tab.page.editProduct.dart';
+import 'package:flutter_course/scoped-models/products.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ProductListPage extends StatelessWidget {
-  final List<Map<String, dynamic>> products;
-  final Function updateProduct;
-  final Function deleteProduct;
-
-  ProductListPage(this.products, this.updateProduct, this.deleteProduct);
+  Widget _buildIconButton(BuildContext context, int index) {
+    return ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+      return IconButton(
+        icon: Icon(
+          Icons.edit,
+          color: Theme.of(context).accentColor,
+        ),
+        onPressed: () {
+          model.selectProduct(index);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return EditProductPage();
+          }));
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-        return Dismissible(
-          onDismissed: (DismissDirection direction) {
-            if (direction == DismissDirection.endToStart) {
-              deleteProduct(index);
-            }
-          },
-          background: Container(
-            color: Colors.red,
-            child: ListTile(
-              leading: Icon(Icons.delete_forever_rounded),
-              trailing: Icon(Icons.delete_forever_rounded),
-            ),
-          ),
-          key: Key(products[index]['title']),
-          child: Column(children: [
-            ListTile(
-              leading: CircleAvatar(
-                radius: 26.0,
-                backgroundImage: AssetImage(products[index]['image']),
-              ),
-              title: Text(products[index]['title']),
-              subtitle: Text('\$${products[index]['price'].toString()}'),
-              trailing: IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  color: Theme.of(context).accentColor,
-                ),
-                onPressed: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (BuildContext context) {
-                    return EditProductPage(
-                        product: products[index],
-                        updateProduct: updateProduct,
-                        productIndex: index);
-                  }));
-                },
+    return ScopedModelDescendant(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+      return ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          model.selectProduct(index);
+          return Dismissible(
+            onDismissed: (DismissDirection direction) {
+              if (direction == DismissDirection.endToStart) {
+                model.deleteProduct();
+              }
+            },
+            background: Container(
+              color: Colors.red,
+              child: ListTile(
+                leading: Icon(Icons.delete_forever_rounded),
+                trailing: Icon(Icons.delete_forever_rounded),
               ),
             ),
-            Divider()
-          ]),
-        );
-      },
-      itemCount: products.length,
-    );
+            key: Key(model.selectedProduct.title),
+            child: Column(children: [
+              ListTile(
+                  leading: CircleAvatar(
+                    radius: 26.0,
+                    backgroundImage: AssetImage(model.selectedProduct.image),
+                  ),
+                  title: Text(model.selectedProduct.title),
+                  subtitle: Text('\$${model.selectedProduct.price.toString()}'),
+                  trailing: _buildIconButton(context, index)),
+              Divider()
+            ]),
+          );
+        },
+        itemCount: model.products.length,
+      );
+    });
   }
 }

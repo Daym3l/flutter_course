@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_course/models/product.dart';
+import 'package:flutter_course/scoped-models/products.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_course/widgets/iu_elements/widget.title.dart';
 
 class ProductPage extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final double price;
-  final String description;
+  final int productIndex;
 
-  ProductPage(this.title, this.imageUrl, this.price, this.description);
+  ProductPage(this.productIndex);
 
-  Widget _buildAddressPriceRow() {
+  Widget _buildAddressPriceRow(Product product) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -26,7 +25,7 @@ class ProductPage extends StatelessWidget {
           ),
         ),
         Text(
-          '\$' + price.toString(),
+          '\$' + product.price.toString(),
           style: TextStyle(fontFamily: 'Oswald', color: Colors.grey),
         )
       ],
@@ -35,34 +34,34 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(imageUrl),
-              Container(
-                child: FormatTitle(title),
-                padding: EdgeInsets.all(8.0),
-              ),
-              _buildAddressPriceRow(),
-              Container(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                  description,
-                  textAlign: TextAlign.center,
-                ),
-              )
-            ],
-          ),
+    return WillPopScope(child: ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(model.products[productIndex].title),
         ),
-        onWillPop: () {
-          print("saliendo");
-          Navigator.pop(context, false);
-          return Future.value(false);
-        });
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(model.products[productIndex].image),
+            Container(
+              child: FormatTitle(model.products[productIndex].title),
+              padding: EdgeInsets.all(8.0),
+            ),
+            _buildAddressPriceRow(model.products[productIndex]),
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                model.products[productIndex].description,
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
+        ),
+      );
+    }), onWillPop: () {
+      Navigator.pop(context, false);
+      return Future.value(false);
+    });
   }
 }
