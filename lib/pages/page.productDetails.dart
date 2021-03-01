@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/models/product.dart';
-import 'package:flutter_course/scoped-models/products.dart';
+import 'package:flutter_course/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_course/widgets/iu_elements/widget.title.dart';
 
@@ -34,25 +34,25 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(child: ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
+    return WillPopScope(child: ScopedModelDescendant<MainModel>(
+        builder: (BuildContext context, Widget child, MainModel model) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(model.products[productIndex].title),
+          title: Text(model.allproducts[productIndex].title),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(model.products[productIndex].image),
+            Image.asset(model.allproducts[productIndex].image),
             Container(
-              child: FormatTitle(model.products[productIndex].title),
+              child: FormatTitle(model.allproducts[productIndex].title),
               padding: EdgeInsets.all(8.0),
             ),
-            _buildAddressPriceRow(model.products[productIndex]),
+            _buildAddressPriceRow(model.allproducts[productIndex]),
             Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                model.products[productIndex].description,
+                model.allproducts[productIndex].description,
                 textAlign: TextAlign.center,
               ),
             )
