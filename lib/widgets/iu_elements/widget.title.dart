@@ -7,10 +7,17 @@ class FormatTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: TextStyle(
-          fontSize: 26.0, fontWeight: FontWeight.bold, fontFamily: 'Oswald'),
+    return Container(
+      margin: EdgeInsets.only(top: 4),
+      child: Row(
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 20, fontFamily: 'Oswald'),
+            textAlign: TextAlign.left,
+          )
+        ],
+      ),
     );
   }
 }

@@ -18,8 +18,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    final MainModel model = MainModel();
     return ScopedModel<MainModel>(
-        model: MainModel(),
+        model: model,
         child: MaterialApp(
           theme: ThemeData(
               brightness: Brightness.light,
@@ -28,8 +29,8 @@ class _MyAppState extends State<MyApp> {
               buttonColor: Colors.deepPurpleAccent),
           routes: {
             '/': (BuildContext context) => AuthPage(),
-            '/home': (BuildContext context) => HomePage(),
-            '/admin': (BuildContext context) => ProductsAdminPage(),
+            '/home': (BuildContext context) => HomePage(model),
+            '/admin': (BuildContext context) => ProductsAdminPage(model),
           },
           onGenerateRoute: (RouteSettings routeSettings) {
             final List<String> pathElements = routeSettings.name.split('/');
@@ -46,7 +47,7 @@ class _MyAppState extends State<MyApp> {
           },
           onUnknownRoute: (RouteSettings settings) {
             return MaterialPageRoute(
-                builder: (BuildContext context) => HomePage());
+                builder: (BuildContext context) => HomePage(model));
           },
         ));
   }

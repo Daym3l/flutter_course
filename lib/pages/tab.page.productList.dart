@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/tab.page.editProduct.dart';
 import 'package:flutter_course/scoped-models/main.dart';
+import 'package:flutter_course/widgets/iu_elements/widget.spiner.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class ProductListPage extends StatelessWidget {
+class ProductListPage extends StatefulWidget {
+  final MainModel mainModel;
+
+  ProductListPage(this.mainModel);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ProductListPage();
+  }
+}
+
+class _ProductListPage extends State<ProductListPage> {
+  @override
+  void initState() {
+    widget.mainModel.fetchProducts();
+    super.initState();
+  }
+
   Widget _buildIconButton(BuildContext context, int index) {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {

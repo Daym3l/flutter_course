@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/models/product.dart';
 import 'package:flutter_course/scoped-models/main.dart';
+import 'package:flutter_course/widgets/iu_elements/widget.spiner.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class EditProductPage extends StatefulWidget {
@@ -30,29 +31,34 @@ class _EditProductPageState extends State<EditProductPage> {
           _formData['description'],
           _formData['image'],
           _formData['price'],
-        );
+        ).then((_) => Navigator.pushReplacementNamed(context, '/home')
+            .then((_) => setSelectedProduct(null)));
       } else {
         updateProduct(
           _formData['title'],
           _formData['description'],
           _formData['image'],
           _formData['price'],
-        );
+        ).then((_) => Navigator.pushReplacementNamed(context, '/home')
+            .then((_) => setSelectedProduct(null)));
       }
-      Navigator.pushReplacementNamed(context, '/home')
-          .then((_) => setSelectedProduct(null));
     }
   }
 
   Widget _buildSubmitButton() {
     return ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
-      return RaisedButton(
-        child: Text('Save'),
-        textColor: Colors.white,
-        onPressed: () => _saveProduct(model.addProducts, model.updateProduct,
-            model.selectProduct, model.selectedProductIndex),
-      );
+      return model.getLoading
+          ? Spiner("Saving Data...")
+          : RaisedButton(
+              child: Text('Save'),
+              textColor: Colors.white,
+              onPressed: () => _saveProduct(
+                  model.addProducts,
+                  model.updateProduct,
+                  model.selectProduct,
+                  model.selectedProductIndex),
+            );
     });
   }
 
