@@ -5,10 +5,6 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_course/widgets/iu_elements/widget.title.dart';
 
 class ProductPage extends StatelessWidget {
-  final int productIndex;
-
-  ProductPage(this.productIndex);
-
   Widget _buildAddressPriceRow(Product product) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -36,23 +32,26 @@ class ProductPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(child: ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
+      final Product product = model.selectedProduct;
       return Scaffold(
         appBar: AppBar(
-          title: Text(model.allproducts[productIndex].title),
+          title: Text(product.title),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(model.allproducts[productIndex].image),
+            FadeInImage(
+                placeholder: AssetImage('assets/images/food.jpg'),
+                image: NetworkImage(product.image)),
             Container(
-              child: FormatTitle(model.allproducts[productIndex].title),
+              child: FormatTitle(product.title),
               padding: EdgeInsets.all(8.0),
             ),
-            _buildAddressPriceRow(model.allproducts[productIndex]),
+            _buildAddressPriceRow(product),
             Container(
               padding: EdgeInsets.all(10.0),
               child: Text(
-                model.allproducts[productIndex].description,
+                product.description,
                 textAlign: TextAlign.center,
               ),
             )

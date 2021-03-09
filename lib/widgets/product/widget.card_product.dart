@@ -3,10 +3,7 @@ import 'package:flutter_course/models/product.dart';
 import 'package:flutter_course/scoped-models/main.dart';
 import 'package:flutter_course/widgets/iu_elements/widget.price.dart';
 import 'package:flutter_course/widgets/iu_elements/widget.title.dart';
-import 'package:flutter_course/widgets/product/widget.address_product.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-import 'widget.price_tag.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -17,8 +14,9 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
+      elevation: 5,
       borderOnForeground: true,
+      shadowColor: Colors.orange,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -31,7 +29,11 @@ class ProductCard extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.topLeft,
                 children: [
-                  Image.asset(product.image),
+                  FadeInImage(
+                      placeholder: AssetImage('assets/images/food.jpg'),
+                      height: 300,
+                      fit: BoxFit.cover,
+                      image: NetworkImage(product.image)),
                   Padding(
                       padding: EdgeInsets.all(4.0),
                       child: ScopedModelDescendant(builder:
@@ -48,9 +50,9 @@ class ProductCard extends StatelessWidget {
                                   ? Colors.red
                                   : Colors.white,
                             ),
-                            backgroundColor: Color.fromARGB(150, 223, 227, 235),
+                            backgroundColor: Color.fromARGB(180, 223, 227, 235),
                             onPressed: () {
-                              model.selectProduct(index);
+                              model.selectProduct(product.id);
                               model.toogleProductFavoriteStatus();
                             });
                       }))
@@ -62,20 +64,26 @@ class ProductCard extends StatelessWidget {
                 subtitle: FormatPrice(product.price.toString()),
                 trailing: ClipOval(
                   child: Material(
-                    color: Theme.of(context).accentColor, // button color
-                    child: InkWell(
-                      splashColor: Colors.red, // inkwell color
-                      child: SizedBox(
-                          width: 56,
-                          height: 56,
-                          child: Icon(
-                            Icons.info_outlined,
-                            color: Colors.white,
-                          )),
-                      onTap: () => Navigator.pushNamed(
-                          context, '/product/' + index.toString()),
-                    ),
-                  ),
+                      color: Theme.of(context).accentColor, // button color
+                      child: ScopedModelDescendant(
+                        builder: (BuildContext context, Widget child,
+                            MainModel model) {
+                          return InkWell(
+                            splashColor: Colors.red, // inkwell color
+                            child: SizedBox(
+                                width: 56,
+                                height: 56,
+                                child: Icon(
+                                  Icons.info_outlined,
+                                  color: Colors.white,
+                                )),
+                            onTap: () {
+                              model.selectProduct(product.id);
+                              Navigator.pushNamed(context, '/product');
+                            },
+                          );
+                        },
+                      )),
                 )),
           ],
         ),

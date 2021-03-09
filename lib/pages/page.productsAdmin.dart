@@ -7,6 +7,7 @@ import 'package:flutter_course/widgets/iu_elements/widget.drawer.dart';
 class ProductsAdminPage extends StatelessWidget {
   final MainModel mainModel;
   ProductsAdminPage(this.mainModel);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

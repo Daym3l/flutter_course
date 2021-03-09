@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/pages/tab.page.editProduct.dart';
 import 'package:flutter_course/scoped-models/main.dart';
-import 'package:flutter_course/widgets/iu_elements/widget.spiner.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ProductListPage extends StatefulWidget {
@@ -31,7 +30,7 @@ class _ProductListPage extends State<ProductListPage> {
           color: Theme.of(context).accentColor,
         ),
         onPressed: () {
-          model.selectProduct(index);
+          model.selectProduct(model.allproducts[index].id);
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (BuildContext context) {
             return EditProductPage();
@@ -47,10 +46,10 @@ class _ProductListPage extends State<ProductListPage> {
         builder: (BuildContext context, Widget child, MainModel model) {
       return ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          model.selectProduct(index);
           return Dismissible(
             onDismissed: (DismissDirection direction) {
               if (direction == DismissDirection.endToStart) {
+                model.selectProduct(model.allproducts[index].id);
                 model.deleteProduct();
               }
             },
@@ -61,15 +60,17 @@ class _ProductListPage extends State<ProductListPage> {
                 trailing: Icon(Icons.delete_forever_rounded),
               ),
             ),
-            key: Key(model.selectedProduct.title),
+            key: Key(model.allproducts[index].id),
             child: Column(children: [
               ListTile(
                   leading: CircleAvatar(
                     radius: 26.0,
-                    backgroundImage: AssetImage(model.selectedProduct.image),
+                    backgroundImage:
+                        NetworkImage(model.allproducts[index].image),
                   ),
-                  title: Text(model.selectedProduct.title),
-                  subtitle: Text('\$${model.selectedProduct.price.toString()}'),
+                  title: Text(model.allproducts[index].title),
+                  subtitle:
+                      Text('\$${model.allproducts[index].price.toString()}'),
                   trailing: _buildIconButton(context, index)),
               Divider()
             ]),

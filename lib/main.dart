@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/pages/tab.page.editProduct.dart';
+import 'package:flutter_course/pages/tab.page.productList.dart';
 import 'package:flutter_course/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_course/pages/page.auth.dart';
@@ -16,11 +18,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final MainModel _model = MainModel();
+  @override
+  void initState() {
+    _
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final MainModel model = MainModel();
     return ScopedModel<MainModel>(
-        model: model,
+        model: _model,
         child: MaterialApp(
           theme: ThemeData(
               brightness: Brightness.light,
@@ -29,25 +37,13 @@ class _MyAppState extends State<MyApp> {
               buttonColor: Colors.deepPurpleAccent),
           routes: {
             '/': (BuildContext context) => AuthPage(),
-            '/home': (BuildContext context) => HomePage(model),
-            '/admin': (BuildContext context) => ProductsAdminPage(model),
-          },
-          onGenerateRoute: (RouteSettings routeSettings) {
-            final List<String> pathElements = routeSettings.name.split('/');
-            if (pathElements[0] != '') {
-              return null;
-            }
-            if (pathElements[1] == 'product') {
-              final int index = int.parse(pathElements[2]);
-              return MaterialPageRoute(
-                builder: (BuildContext context) => ProductPage(index),
-              );
-            }
-            return null;
+            '/home': (BuildContext context) => HomePage(_model),
+            '/admin': (BuildContext context) => ProductsAdminPage(_model),
+            '/product': (BuildContext context) => ProductPage(),
           },
           onUnknownRoute: (RouteSettings settings) {
             return MaterialPageRoute(
-                builder: (BuildContext context) => HomePage(model));
+                builder: (BuildContext context) => HomePage(_model));
           },
         ));
   }

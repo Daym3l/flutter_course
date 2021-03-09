@@ -13,7 +13,7 @@ class Products extends StatelessWidget {
       productCard = ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           return Container(
-            margin: EdgeInsets.only(top: 4, left: 4, right: 4),
+            margin: EdgeInsets.only(top: 4, left: 4, right: 4, bottom: 8),
             child: ProductCard(products[index], index),
           );
         },

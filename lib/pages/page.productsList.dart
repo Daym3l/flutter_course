@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
         content = Spiner("Loading Data...");
       }
 
-      return content;
+      return RefreshIndicator(child: content, onRefresh: model.fetchProducts);
     });
   }
 
