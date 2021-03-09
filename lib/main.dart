@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_course/pages/tab.page.editProduct.dart';
-import 'package:flutter_course/pages/tab.page.productList.dart';
 import 'package:flutter_course/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_course/pages/page.auth.dart';
 import 'package:flutter_course/pages/page.productsList.dart';
 import 'pages/page.productDetails.dart';
 import 'pages/page.productsAdmin.dart';
+import 'package:flutter_config/flutter_config.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -19,9 +22,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final MainModel _model = MainModel();
+
   @override
   void initState() {
-    _
+    _model.setSecret(FlutterConfig.get('FIREBASE_KEY'));
     super.initState();
   }
 

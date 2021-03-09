@@ -14,6 +14,7 @@ class ConnectedModel extends Model {
   String _selProductId;
   bool _isLoaing = false;
   int _tabIndex = 0;
+  String _secret = '';
 
   bool get getLoading {
     return _isLoaing;
@@ -22,6 +23,10 @@ class ConnectedModel extends Model {
   int get getTabIndex {
     notifyListeners();
     return _tabIndex;
+  }
+
+  void setSecret(String value) {
+    _secret = value;
   }
 
   void setTabIndex(int index) {
@@ -85,12 +90,12 @@ class UserModel extends ConnectedModel {
     http.Response response;
     if (mode == AuthMode.Login) {
       response = await http.post(
-          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBeO8Xd4wtalZycbG1YkH1Cg4AiH-rwW1k',
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${_secret}',
           body: json.encode(authData),
           headers: {'Content-Type': 'application/json'});
     } else {
       response = await http.post(
-          'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBeO8Xd4wtalZycbG1YkH1Cg4AiH-rwW1k',
+          'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${_secret}',
           body: json.encode(authData),
           headers: {'Content-Type': 'application/json'});
     }
