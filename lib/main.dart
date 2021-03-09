@@ -22,10 +22,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final MainModel _model = MainModel();
+  bool _isAuthenticated = false;
 
   @override
   void initState() {
     _model.setSecret(FlutterConfig.get('FIREBASE_KEY'));
+    _model.autoAuthenticate();
+    _model.userSubject.listen((bool isAuthenticated) {
+      setState(() {
+        _isAuthenticated = isAuthenticated;
+      });
+    });
     super.initState();
   }
 
@@ -40,8 +47,8 @@ class _MyAppState extends State<MyApp> {
               accentColor: Colors.deepPurpleAccent,
               buttonColor: Colors.deepPurpleAccent),
           routes: {
-            '/': (BuildContext context) => AuthPage(),
-            '/home': (BuildContext context) => HomePage(_model),
+            '/': (BuildContext context) =>
+                !_isAuthenticated ? AuthPage() : HomePage(_model),
             '/admin': (BuildContext context) => ProductsAdminPage(_model),
             '/product': (BuildContext context) => ProductPage(),
           },

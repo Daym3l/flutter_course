@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/scoped-models/main.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class MyDrawer extends StatelessWidget {
   @override
@@ -14,7 +16,7 @@ class MyDrawer extends StatelessWidget {
             leading: Icon(Icons.home),
             title: Text('Home'),
             onTap: () {
-              Navigator.pushReplacementNamed(context, '/home');
+              Navigator.pushReplacementNamed(context, '/');
             },
           ),
           ListTile(
@@ -23,7 +25,18 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacementNamed(context, '/admin');
             },
-          )
+          ),
+          Divider(),
+          ScopedModelDescendant(
+              builder: (BuildContext context, Widget child, MainModel model) {
+            return ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Log Out'),
+              onTap: () {
+                model.logout();
+              },
+            );
+          })
         ],
       ),
     );

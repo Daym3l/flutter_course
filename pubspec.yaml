@@ -30,6 +30,7 @@ dependencies:
   scoped_model: ^1.1.0
   http: ^0.12.2
   shared_preferences: ^0.5.12
+  rxdart: ^0.22.6
 
 dev_dependencies:
   flutter_config: ^1.0.8

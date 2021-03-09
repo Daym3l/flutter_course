@@ -33,7 +33,7 @@ class _EditProductPageState extends State<EditProductPage> {
           _formData['price'],
         ).then((bool success) {
           if (success) {
-            Navigator.pushReplacementNamed(context, '/home')
+            Navigator.pushReplacementNamed(context, '/')
                 .then((_) => setSelectedProduct(null));
           } else {
             return AlertDialog();
@@ -45,7 +45,7 @@ class _EditProductPageState extends State<EditProductPage> {
           _formData['description'],
           _formData['image'],
           _formData['price'],
-        ).then((_) => Navigator.pushReplacementNamed(context, '/home')
+        ).then((_) => Navigator.pushReplacementNamed(context, '/')
             .then((_) => setSelectedProduct(null)));
       }
     }

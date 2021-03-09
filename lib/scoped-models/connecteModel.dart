@@ -1,6 +1,7 @@
 import 'package:flutter_course/models/auth.dart';
 import 'package:flutter_course/models/product.dart';
 import 'package:flutter_course/models/user.dart';
+import 'package:rxdart/subjects.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -78,6 +79,33 @@ class ConnectedModel extends Model {
 }
 
 class UserModel extends ConnectedModel {
+  Timer _authTimer;
+  PublishSubject<bool> _subject = PublishSubject();
+
+  User get user {
+    return _authenticatedUser;
+  }
+
+  PublishSubject<bool> get userSubject {
+    return _subject;
+  }
+
+  void logout() async {
+    _authenticatedUser = null;
+    _authTimer.cancel();
+    _subject.add(false);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+    prefs.remove('userEmail');
+    prefs.remove('userId');
+  }
+
+  void setAuthTimeout(int time) {
+    _authTimer = Timer(Duration(seconds: time), () {
+      logout();
+    });
+  }
+
   Future<Map<String, dynamic>> authenticate(String email, String password,
       [AuthMode mode = AuthMode.Login]) async {
     _isLoaing = true;
@@ -113,9 +141,16 @@ class UserModel extends ConnectedModel {
           id: responseData['localId'],
           email: responseData['email'],
           token: responseData['idToken']);
-
+      setAuthTimeout(int.parse(responseData['expiresIn']));
+      _subject.add(true);
+      final now = DateTime.now();
+      final DateTime expiryTime =
+          now.add(Duration(seconds: int.parse(responseData['expiresIn'])));
       final SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString('token', responseData['idToken']);
+      pref.setString('userEmail', email);
+      pref.setString('userId', responseData['localId']);
+      pref.setString('expiryTime', expiryTime.toIso8601String());
     } else if (responseData['error']['message'] == 'EMAIL_NOT_FOUND') {
       message =
           'There is no user record for this identifier. The user may have been removed.';
@@ -130,7 +165,23 @@ class UserModel extends ConnectedModel {
   void autoAuthenticate() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     final String token = pref.getString('token');
-    if (token != null) {}
+    final String expiryTimeString = pref.getString('expiryTime');
+    if (token != null) {
+      final DateTime now = DateTime.now();
+      final parsedExpiredTime = DateTime.parse(expiryTimeString);
+      if (parsedExpiredTime.isBefore(now)) {
+        _authenticatedUser = null;
+        notifyListeners();
+        return;
+      }
+      final String userEmail = pref.getString('userEmail');
+      final String userId = pref.getString('userId');
+      final int tokenlife = parsedExpiredTime.difference(now).inSeconds;
+      setAuthTimeout(tokenlife);
+      _authenticatedUser = User(id: userId, email: userEmail, token: token);
+      _subject.add(true);
+      notifyListeners();
+    }
   }
 }
 
