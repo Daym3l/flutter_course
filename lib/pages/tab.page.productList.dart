@@ -17,7 +17,7 @@ class ProductListPage extends StatefulWidget {
 class _ProductListPage extends State<ProductListPage> {
   @override
   void initState() {
-    widget.mainModel.fetchProducts();
+    widget.mainModel.fetchProducts(onlyForUser: true);
     super.initState();
   }
 
