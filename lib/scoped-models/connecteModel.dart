@@ -132,6 +132,7 @@ class UserModel extends ConnectedModel {
     notifyListeners();
 
     final Map<String, dynamic> responseData = json.decode(response.body);
+
     bool hasError = true;
     String message = 'Something went wrong.';
     if (responseData.containsKey('idToken')) {

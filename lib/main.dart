@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_course/pages/page.gmap.dart';
 import 'package:flutter_course/scoped-models/main.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:flutter_course/pages/page.auth.dart';
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
                 !_isAuthenticated ? AuthPage() : HomePage(_model),
             '/admin': (BuildContext context) => ProductsAdminPage(_model),
             '/product': (BuildContext context) => ProductPage(),
+            '/map': (BuildContext context) => Gmap(),
           },
           onUnknownRoute: (RouteSettings settings) {
             return MaterialPageRoute(
