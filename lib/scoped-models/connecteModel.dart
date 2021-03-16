@@ -16,6 +16,7 @@ class ConnectedModel extends Model {
   bool _isLoaing = false;
   int _tabIndex = 0;
   String _secret = '';
+  String _secretApiKey = '';
 
   bool get getLoading {
     return _isLoaing;
@@ -26,8 +27,16 @@ class ConnectedModel extends Model {
     return _tabIndex;
   }
 
+  String get apiKey {
+    return _secretApiKey;
+  }
+
   void setSecret(String value) {
     _secret = value;
+  }
+
+  void setSecretApiKey(String value) {
+    _secretApiKey = value;
   }
 
   void setTabIndex(int index) {

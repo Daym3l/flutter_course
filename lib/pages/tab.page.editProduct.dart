@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_course/models/product.dart';
+import 'package:flutter_course/pages/page.gmap.dart';
 import 'package:flutter_course/scoped-models/main.dart';
 import 'package:flutter_course/widgets/iu_elements/widget.spiner.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -73,11 +74,13 @@ class _EditProductPageState extends State<EditProductPage> {
     final double targetWidth = deiceWidth > 550.0 ? 500.0 : deiceWidth * 0.95;
     final double targetPadding = deiceWidth - targetWidth;
     return Container(
+      height: MediaQuery.of(context).size.height,
       width: targetWidth,
       margin: EdgeInsets.all(8.0),
       child: Form(
         key: _formKey,
         child: ListView(
+          shrinkWrap: true,
           padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
           children: [
             TextFormField(
@@ -124,6 +127,13 @@ class _EditProductPageState extends State<EditProductPage> {
                 _formData['description'] = value;
               },
             ),
+            Center(
+              child: Padding(
+                child: Text('Product Location'),
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+              ),
+            ),
+            Gmap(),
             SizedBox(
               height: 8.0,
             ),

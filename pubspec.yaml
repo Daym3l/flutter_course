@@ -30,8 +30,9 @@ dependencies:
   scoped_model: ^1.1.0
   http: ^0.12.2
   shared_preferences: ^0.5.12
-  rxdart: ^0.22.6
-  google_maps_flutter: ^1.2.0
+  flutter_map: ^0.10.1+1
+  latlong: ^0.6.1
+  
 
 dev_dependencies:
   flutter_config: ^1.0.8

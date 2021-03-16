@@ -26,13 +26,6 @@ class MyDrawer extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/admin');
             },
           ),
-          ListTile(
-            leading: Icon(Icons.map),
-            title: Text('Map'),
-            onTap: () {
-              Navigator.pushReplacementNamed(context, '/map');
-            },
-          ),
           Divider(),
           ScopedModelDescendant(
               builder: (BuildContext context, Widget child, MainModel model) {

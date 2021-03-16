@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     _model.setSecret(FlutterConfig.get('FIREBASE_KEY'));
+    _model.setSecretApiKey(FlutterConfig.get('API_KEY'));
     _model.autoAuthenticate();
     _model.userSubject.listen((bool isAuthenticated) {
       setState(() {
@@ -52,7 +53,6 @@ class _MyAppState extends State<MyApp> {
                 !_isAuthenticated ? AuthPage() : HomePage(_model),
             '/admin': (BuildContext context) => ProductsAdminPage(_model),
             '/product': (BuildContext context) => ProductPage(),
-            '/map': (BuildContext context) => Gmap(),
           },
           onUnknownRoute: (RouteSettings settings) {
             return MaterialPageRoute(
